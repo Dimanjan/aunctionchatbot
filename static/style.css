@@ -1,0 +1,303 @@
+/* --- Base & Layout --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #181c2f;
+  color: #e6e9f0;
+  min-height: 100vh;
+}
+
+nav {
+  background: #181c2f;
+  box-shadow: 0 2px 16px 0 rgba(44, 62, 80, 0.12);
+  padding: 0.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+nav ul li {
+  display: inline-block;
+}
+nav ul li a, nav ul li button {
+  text-decoration: none;
+  color: #23284a;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+nav ul li a:hover, nav ul li button:hover {
+  background: rgba(49, 130, 206, 0.12);
+  color: #3a8dde;
+  box-shadow: 0 2px 8px 0 rgba(49, 130, 206, 0.10);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #23284a;
+  margin: 0 0 1.5rem 0;
+}
+
+
+
+.container {
+  max-width: 2400px;
+  margin: 0 auto;
+  background: none;
+  border-radius: 10px;
+  padding: 2rem 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.auction-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.card {
+  background: #23284a;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(58, 141, 222, 0.10), 0 1.5px 8px 0 rgba(24,28,47,0.10);
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: none;
+}
+.card:hover {
+  transform: none;
+  box-shadow: 0 4px 32px 0 rgba(58, 141, 222, 0.10), 0 1.5px 8px 0 rgba(24,28,47,0.10);
+}
+.card img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(49, 130, 206, 0.10);
+}
+.card .title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.card .creator {
+  font-size: 0.95rem;
+  color: #7ecbff;
+  margin-bottom: 0.5rem;
+}
+.card .current-bid {
+  font-size: 1rem;
+  color: #000000;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.card .timer {
+  background: #223a5f;
+  color: #7ecbff;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 0.7rem 1.2rem;
+  margin-top: 0.7rem;
+  font-size: 1.08rem;
+  letter-spacing: 1px;
+  box-shadow: none;
+  display: inline-block;
+}
+
+.live-auctions-title {
+  color: #10b981;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.live-auctions-desc {
+  color: #b0b6d6;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Newsletter Gradient Box */
+.newsletter {
+  background: linear-gradient(90deg, #23284a 0%, #2b3a67 100%);
+  color: #e6e9f0;
+  border-radius: 0;
+  box-shadow: 0 2px 12px 0 rgba(58, 141, 222, 0.04);
+  padding: 4rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 0 1.5rem 0;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.newsletter input[type="email"] {
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  margin-right: 1rem;
+  outline: none;
+}
+.newsletter button {
+  background: #23284a;
+  color: #7ecbff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.newsletter button:hover {
+  background: #7ecbff;
+  color: #23284a;
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(90deg, #23284a 0%, #2b3a67 100%);
+  color: #b0b6d6;
+  padding: 4rem 3rem 3rem 3rem;
+  border-radius: 0;
+  margin-top: 3rem;
+  box-shadow: 0 -4px 32px 0 rgba(58, 141, 222, 0.10);
+}
+footer .footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+footer h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+}
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+footer ul li {
+  margin-bottom: 0.5rem;
+}
+footer ul li a {
+  color: #7ecbff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+footer ul li a:hover {
+  color: #fff;
+}
+
+/* Animations */
+.card, .newsletter, nav, footer {
+  transition: box-shadow 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+}
+
+input, select, textarea {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #f7fafd;
+  color: #23284a;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px 0 rgba(44,62,80,0.04);
+}
+input:focus, select:focus, textarea:focus {
+  border: 1.5px solid #3a8dde;
+  outline: none;
+  background: #fff;
+  box-shadow: 0 2px 8px 0 rgba(58,141,222,0.10);
+}
+
+button, input[type="submit"] {
+  background: linear-gradient(90deg, #3a8dde, #7ecbff);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(49,130,206,0.10);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+}
+button:hover, input[type="submit"]:hover {
+  background: linear-gradient(90deg, #225ea8, #3a8dde);
+  color: #fff;
+}
+
+.card-btn {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  margin: 1.2rem auto 0 auto;
+  background: linear-gradient(90deg, #3a8dde, #5fa8d3);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 1.2rem;
+  padding: 0.7rem 0;
+  text-align: center;
+  box-shadow: 0 2px 8px 0 rgba(49,130,206,0.10);
+  text-decoration: none;
+  transition: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-btn:hover {
+  background: linear-gradient(90deg, #3a8dde, #5fa8d3);
+  color: #fff;
+  box-shadow: 0 2px 8px 0 rgba(49,130,206,0.10);
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+  .newsletter {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 3rem 2rem;
+  }
+  footer .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

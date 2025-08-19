@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+{% block title %}Chatbot Analytics - AuctionVistas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="analytics-header">
+        <h1>🤖 Chatbot Analytics</h1>
+        <p>Monitor chatbot performance and user interactions</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-content">
+                <h3>{{ total_sessions }}</h3>
+                <p>Total Sessions</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-content">
+                <h3>{{ total_messages }}</h3>
+                <p>Total Messages</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-content">
+                <h3>2.3s</h3>
+                <p>Avg Response Time</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <h3>94%</h3>
+                <p>Satisfaction Rate</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Sessions -->
+    <div class="analytics-section">
+        <h2>Recent Chat Sessions</h2>
+        <div class="sessions-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Session ID</th>
+                        <th>User</th>
+                        <th>Messages</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in recent_sessions %}
+                    <tr>
+                        <td>{{ session.session_id|truncatechars:12 }}</td>
+                        <td>{{ session.user.username|default:"Anonymous" }}</td>
+                        <td>{{ session.messages.count }}</td>
+                        <td>
+                            {% if session.is_active %}
+                                Active
+                            {% else %}
+                                {{ session.updated_at|timesince:session.created_at }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="status-badge {% if session.is_active %}active{% else %}ended{% endif %}">
+                                {% if session.is_active %}Active{% else %}Ended{% endif %}
+                            </span>
+                        </td>
+                        <td>{{ session.created_at|date:"M d, Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="no-data">No chat sessions found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Analytics Chart -->
+    <div class="analytics-section">
+        <h2>Daily Usage Analytics</h2>
+        <div class="chart-container">
+            <canvas id="analyticsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<style>
+.analytics-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 12px;
+}
+
+.analytics-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.analytics-header p {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.stat-content h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #23284a;
+}
+
+.stat-content p {
+    margin: 0;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.analytics-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.analytics-section h2 {
+    margin: 0 0 1.5rem 0;
+    color: #23284a;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.sessions-table {
+    overflow-x: auto;
+}
+
+.sessions-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sessions-table th,
+.sessions-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sessions-table th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #374151;
+}
+
+.sessions-table td {
+    color: #6b7280;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.ended {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.no-data {
+    text-align: center;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.chart-container {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 2px dashed #d1d5db;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .analytics-header h1 {
+        font-size: 2rem;
+    }
+    
+    .sessions-table {
+        font-size: 0.875rem;
+    }
+    
+    .sessions-table th,
+    .sessions-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Sample analytics chart
+const ctx = document.getElementById('analyticsChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+            label: 'Chat Sessions',
+            data: [12, 19, 15, 25, 22, 30, 28],
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4,
+            fill: true
+        }, {
+            label: 'Messages',
+            data: [45, 67, 52, 89, 78, 95, 88],
+            borderColor: '#3a8dde',
+            backgroundColor: 'rgba(58, 141, 222, 0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Weekly Chat Activity'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chatbot Demo - AuctionVistas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="demo-header">
+        <h1>🤖 Chatbot Demo</h1>
+        <p>Experience our AI-powered auction assistant in action!</p>
+    </div>
+
+    <div class="demo-content">
+        <div class="demo-section">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Real-time Chat</h3>
+                    <p>Instant responses with typing indicators and smooth animations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Replies</h3>
+                    <p>Pre-defined buttons for common questions and faster interaction</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Context Aware</h3>
+                    <p>Understands your current page and provides relevant assistance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Responsive</h3>
+                    <p>Perfect experience on all devices with touch-friendly interface</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Try These Questions</h2>
+            <div class="sample-questions">
+                <button class="sample-question" onclick="sendQuickReply('How do I place a bid?')">
+                    "How do I place a bid?"
+                </button>
+                <button class="sample-question" onclick="sendQuickReply('What payment methods do you accept?')">
+                    "What payment methods do you accept?"
+                </button>
+                <button class="sample-question" onclick="sendQuickReply('How do I create an auction?')">
+                    "How do I create an auction?"
+                </button>
+                <button class="sample-question" onclick="sendQuickReply('Help with my account')">
+                    "Help with my account"
+                </button>
+                <button class="sample-question" onclick="sendQuickReply('What are the auction rules?')">
+                    "What are the auction rules?"
+                </button>
+                <button class="sample-question" onclick="sendQuickReply('How do I track my bids?')">
+                    "How do I track my bids?"
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>How It Works</h2>
+            <div class="how-it-works">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Click the Chat Button</h3>
+                        <p>Look for the green chat button in the bottom-right corner of any page</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Ask Your Question</h3>
+                        <p>Type your question or use the quick reply buttons for common queries</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Get Instant Help</h3>
+                        <p>Receive helpful, context-aware responses from our AI assistant</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.demo-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+}
+
+.demo-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.demo-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.demo-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.demo-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.demo-section h2 {
+    color: #10b981;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: #10b981;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.sample-questions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.sample-question {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.sample-question:hover {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.how-it-works {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: #10b981;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.step-content h3 {
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    color: #6b7280;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .demo-header h1 {
+        font-size: 2rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sample-questions {
+        grid-template-columns: 1fr;
+    }
+    
+    .step {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+</style>
+{% endblock %} 

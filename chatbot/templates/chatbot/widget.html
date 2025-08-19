@@ -1,0 +1,120 @@
+{% load static %}
+
+<!-- Enhanced Chatbot Widget -->
+<div id="chatbot-widget" class="chatbot-widget">
+    <!-- Floating Chat Button -->
+    <div id="chatbot-button" class="chatbot-button" onclick="toggleChat()">
+        <div class="chatbot-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="chatbot-pulse"></div>
+        <div class="chatbot-tooltip">Need help? Ask me anything!</div>
+    </div>
+
+    <!-- Chat Window -->
+    <div id="chatbot-window" class="chatbot-window">
+        <!-- Enhanced Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-content">
+                <div class="chatbot-avatar">
+                    <div class="avatar-ring"></div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="chatbot-info">
+                    <h3>AuctionVistas Assistant</h3>
+                    <span id="chatbot-status" class="status-online">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+                </div>
+            </div>
+            <div class="chatbot-actions">
+                <button class="chatbot-minimize" onclick="minimizeChat()" title="Minimize">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="chatbot-close" onclick="toggleChat()" title="Close">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Welcome message will be added here -->
+        </div>
+
+        <!-- Quick Reply Buttons -->
+                            <div id="quick-replies" class="quick-replies">
+                        <button class="quick-reply-btn" onclick="sendQuickReply('How do I place a bid?')">
+                            How do I place a bid?
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('What payment methods do you accept?')">
+                            Payment methods
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('How do I create an auction?')">
+                            Create auction
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('What are the seller fees?')">
+                            Seller fees
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('How do I track my bids?')">
+                            Track bids
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('What if I receive a damaged item?')">
+                            Damaged item
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('How do I search for items?')">
+                            Search items
+                        </button>
+                        <button class="quick-reply-btn" onclick="sendQuickReply('What are the auction rules?')">
+                            Auction rules
+                        </button>
+                    </div>
+
+        <!-- Enhanced Input Area -->
+        <div class="chatbot-input-area">
+            <div class="chatbot-input-container">
+                <button class="chatbot-attach-btn" title="Attach file">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.44 11.05L12.25 20.24C11.1242 21.3658 9.59717 21.9983 8.005 21.9983C6.41283 21.9983 4.88579 21.3658 3.76 20.24C2.63421 19.1142 2.00171 17.5872 2.00171 15.995C2.00171 14.4028 2.63421 12.8758 3.76 11.75L12.95 2.56C13.7006 1.80943 14.7167 1.3877 15.78 1.3877C16.8433 1.3877 17.8594 1.80943 18.61 2.56C19.3606 3.31057 19.7823 4.32667 19.7823 5.39C19.7823 6.45333 19.3606 7.46943 18.61 8.22L9.41 17.41C9.03472 17.7853 8.52647 17.9961 8 17.9961C7.47353 17.9961 6.96528 17.7853 6.59 17.41C6.21472 17.0347 6.00391 16.5265 6.00391 16C6.00391 15.4735 6.21472 14.9653 6.59 14.59L15.07 6.11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <input 
+                    type="text" 
+                    id="chatbot-input" 
+                    class="chatbot-input" 
+                    placeholder="Type your message..."
+                    onkeypress="handleKeyPress(event)"
+                    oninput="handleInputChange()"
+                >
+                <button id="chatbot-send" class="chatbot-send-btn" onclick="sendMessage()" disabled>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor"/>
+                    </svg>
+                    <span class="send-text">Send</span>
+                </button>
+            </div>
+            <div class="chatbot-typing" id="chatbot-typing" style="display: none;">
+                <div class="typing-avatar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <span>Assistant is typing</span>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
