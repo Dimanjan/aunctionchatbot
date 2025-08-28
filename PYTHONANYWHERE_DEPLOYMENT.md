@@ -36,6 +36,7 @@ This guide will help you deploy the Aliaunction auction website with chatbot fun
 
 ## Step 3: Configure Environment Variables
 
+**Option A: Using .env file (Recommended)**
 1. Create a `.env` file in your project root:
    ```bash
    nano .env
@@ -59,6 +60,9 @@ This guide will help you deploy the Aliaunction auction website with chatbot fun
    ```
 
 3. Save and exit (Ctrl+X, Y, Enter)
+
+**Option B: Direct environment variables in WSGI file**
+Use the simplified WSGI file: `aliaunction/wsgi_production_simple.py`
 
 ## Step 4: Set Up Database
 
@@ -88,65 +92,111 @@ python manage.py collectstatic --noinput
 1. Go to the **Web** tab in your PythonAnywhere dashboard
 2. Click **Add a new web app**
 3. Choose **Manual configuration**
-4. Select **Python 3.12** (or the latest available)
-5. Set the following configurations:
+4. Select **Python 3.12**
 
-### Source Code
-- **Source code**: `/home/aliaunction/aliaunction_clean`
+## Step 7: Configure Virtual Environment
 
-### WSGI Configuration
-- **WSGI configuration file**: `/home/aliaunction/aliaunction_clean/aliaunction/wsgi_production.py`
-
-### Static Files
-- **URL**: `/static/`
-- **Directory**: `/home/aliaunction/aliaunction_clean/staticfiles`
-
-### Media Files
-- **URL**: `/media/`
-- **Directory**: `/home/aliaunction/aliaunction_clean/media`
-
-## Step 7: Update WSGI File
-
-1. Open the WSGI file in the PythonAnywhere file editor:
+1. In the **Virtualenv** section, enter:
    ```
-   /home/aliaunction/aliaunction_clean/aliaunction/wsgi_production.py
+   aliaunction-virtualenv
    ```
+2. Click **OK**
 
-2. Make sure the path is correct for your username:
-   ```python
-   path = '/home/aliaunction/aliaunction_clean'  # Update with your username
-   ```
+## Step 8: Set Source Code Path
 
-## Step 8: Set Environment Variables
+1. In the **Code** section, set:
+   - **Source code**: `/home/aliaunction/aliaunction_clean`
+   - **Working directory**: `/home/aliaunction/aliaunction_clean`
 
-1. Go to the **Files** tab in PythonAnywhere
-2. Navigate to your project directory
-3. Create a `.env` file with your environment variables
-4. In your WSGI file, add code to load environment variables:
+## Step 9: Configure WSGI File
 
+1. Click on the **WSGI configuration file** link in the Code section
+2. **Choose one of the following options:**
+
+### Option A: Using .env file (Recommended)
+Replace the entire content with:
 ```python
+# +++++++++++ DJANGO +++++++++++
 import os
-from pathlib import Path
+import sys
+
+# Add the project directory to the Python path
+path = '/home/aliaunction/aliaunction_clean'
+if path not in sys.path:
+    sys.path.append(path)
 
 # Load environment variables from .env file
-env_path = Path('/home/aliaunction/aliaunction_clean/.env')
-if env_path.exists():
+env_path = '/home/aliaunction/aliaunction_clean/.env'
+if os.path.exists(env_path):
     with open(env_path) as f:
         for line in f:
-            if line.strip() and not line.startswith('#'):
-                key, value = line.strip().split('=', 1)
-                os.environ[key] = value
+            line = line.strip()
+            # Skip empty lines and comments
+            if line and not line.startswith('#'):
+                try:
+                    if '=' in line:
+                        key, value = line.split('=', 1)
+                        os.environ[key.strip()] = value.strip()
+                except ValueError:
+                    # Skip lines that don't have proper key=value format
+                    continue
 
-# Rest of your WSGI configuration...
+# Set the Django settings module for production
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'aliaunction.settings_production')
+
+# Import Django's WSGI application
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 ```
 
-## Step 9: Reload Web App
+### Option B: Direct environment variables
+Replace the entire content with:
+```python
+# +++++++++++ DJANGO +++++++++++
+import os
+import sys
+
+# Add the project directory to the Python path
+path = '/home/aliaunction/aliaunction_clean'
+if path not in sys.path:
+    sys.path.append(path)
+
+# Set environment variables directly (replace with your actual values)
+os.environ['SECRET_KEY'] = 'your-secret-key-here'  # Replace with actual secret key
+os.environ['DEBUG'] = 'False'
+os.environ['OPENAI_API_KEY'] = 'your-openai-api-key-here'  # Replace with actual API key
+os.environ['EMAIL_HOST_USER'] = 'your-email@gmail.com'  # Optional
+os.environ['EMAIL_HOST_PASSWORD'] = 'your-app-password'  # Optional
+os.environ['DEFAULT_FROM_EMAIL'] = 'no-reply@aliaunction.com'
+
+# Set the Django settings module for production
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'aliaunction.settings_production')
+
+# Import Django's WSGI application
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+```
+
+3. **Save** the file
+
+## Step 10: Configure Static Files
+
+1. In the **Static files** section, add:
+   - **URL**: `/static/`
+   - **Directory**: `/home/aliaunction/aliaunction_clean/staticfiles`
+
+## Step 11: Configure Media Files
+
+1. In the **Static files** section, add another entry:
+   - **URL**: `/media/`
+   - **Directory**: `/home/aliaunction/aliaunction_clean/media`
+
+## Step 12: Reload Your Web App
 
 1. Go back to the **Web** tab
-2. Click **Reload** button
-3. Check the error logs if there are any issues
+2. Click the **Reload** button (green button at the top)
 
-## Step 10: Test Your Application
+## Step 13: Test Your Site
 
 1. Visit your site: `https://aliaunction.pythonanywhere.com`
 2. Test the chatbot functionality
@@ -160,6 +210,10 @@ if env_path.exists():
 2. **Static Files Not Loading**: Verify the static files configuration and run `collectstatic` again
 3. **Database Errors**: Check that migrations have been applied
 4. **Environment Variables**: Ensure your `.env` file is properly formatted and loaded
+
+### WSGI File Errors
+
+If you see errors like "ValueError: not enough values to unpack", it means there's an issue with the environment variable loading. Use Option B (direct environment variables) instead of Option A.
 
 ### Error Logs
 
