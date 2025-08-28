@@ -49,6 +49,7 @@ urlpatterns = [
     path('newsletter-signup/', include('newsletter.urls')),
     path('marketplace/', include('marketplace.urls')),
     path('news/', include('news.urls')),
+    path('chatbot/', include('chatbot.urls')),
     path('', homepage, name='home'),
 ]
 
