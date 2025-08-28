@@ -49,7 +49,7 @@ class ChatbotService:
     def _get_fallback_response(self, user_message):
         """Get a fallback response based on FAQ data"""
         user_message_lower = user_message.lower()
-
+        
         # First, try to find exact FAQ matches with better keyword matching
         faqs = FAQ.objects.filter(is_active=True)
 
@@ -115,11 +115,11 @@ class ChatbotService:
         for keyword, related_terms in keyword_mapping.items():
             if any(term in user_message_lower for term in related_terms):
                 # Find the most relevant FAQ
-                for faq in faqs:
+        for faq in faqs:
                     faq_lower = faq.question.lower()
                     if any(term in faq_lower for term in related_terms):
-                        return faq.answer
-
+                return faq.answer
+        
         # Enhanced specific question matching
         if any(word in user_message_lower for word in ['place', 'put', 'make']) and 'bid' in user_message_lower:
             return "To place a bid, navigate to the auction item you want to bid on, enter your bid amount in the bidding section, and click 'Place Bid'. Make sure you have sufficient funds in your account. Your bid must be higher than the current highest bid."
