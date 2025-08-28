@@ -115,10 +115,10 @@ class ChatbotService:
         for keyword, related_terms in keyword_mapping.items():
             if any(term in user_message_lower for term in related_terms):
                 # Find the most relevant FAQ
-        for faq in faqs:
+                for faq in faqs:
                     faq_lower = faq.question.lower()
                     if any(term in faq_lower for term in related_terms):
-                return faq.answer
+                        return faq.answer
         
         # Enhanced specific question matching
         if any(word in user_message_lower for word in ['place', 'put', 'make']) and 'bid' in user_message_lower:
